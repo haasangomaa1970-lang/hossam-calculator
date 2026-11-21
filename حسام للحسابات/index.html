@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>حسام للحسابات</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    }
+    body {
+      margin: 0;
+      background: #0f172a;
+      color: #f8fafc;
+      min-height: 100vh;
+    }
+    .hidden {
+      display: none !important;
+    }
+
+    /* شاشة التفعيل */
+    .lock-wrapper {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      background: #141d2e;
+    }
+    .lock-card {
+      width: 100%;
+      max-width: 440px;
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 18px;
+      padding: 18px;
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.45);
+    }
+    .top-banner {
+      background: linear-gradient(135deg, #1d4ed8, #1e3a8a);
+      border-radius: 12px;
+      padding: 14px;
+      text-align: center;
+      margin-bottom: 14px;
+    }
+    .top-banner .title {
+      font-size: 20px;
+      font-weight: 800;
+      color: #ffffff;
+    }
+    .top-banner .sub {
+      font-size: 13px;
+      color: #dbeafe;
+      margin-top: 6px;
+      direction: ltr;
+      unicode-bidi: embed;
+    }
+    .logo-btn {
+      width: 100%;
+      background: #334155;
+      color: #f1f5f9;
+      border: 1px solid #475569;
+      border-radius: 10px;
+      padding: 9px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      margin-bottom: 14px;
+    }
+    .brand-box {
+      text-align: center;
+      margin-bottom: 14px;
+    }
+    .brand-logo-img {
+      max-width: 84px;
+      max-height: 84px;
+      border-radius: 14px;
+      object-fit: contain;
+      margin-bottom: 8px;
+    }
+    .brand-main {
+      font-size: 24px;
+      font-weight: 800;
+      color: #ffffff;
+    }
+    .brand-desc {
+      font-size: 13px;
+      color: #cbd5e1;
+      margin-top: 4px;
+    }
+    .info-box {
+      background: #172554;
+      border: 1px solid #2563eb;
+      border-radius: 10px;
+      padding: 11px 12px;
+      font-size: 13px;
+      line-height: 1.6;
+      color: #e2e8f0;
+      text-align: center;
+      margin-bottom: 12px;
+    }
+    .device-box {
+      background: #0f172a;
+      border: 1px solid #334155;
+      border-radius: 10px;
+      padding: 10px;
+      text-align: center;
+      margin-bottom: 14px;
+    }
+    .device-label {
+      font-size: 12px;
+      color: #94a3b8;
+      margin-bottom: 4px;
+    }
+    .device-stars {
+      font-size: 18px;
+      letter-spacing: 3px;
+      color: #e2e8f0;
+      font-weight: bold;
+    }
+    .wa-btn {
+      display: block;
+      width: 100%;
+      background: #22c55e;
+      color: #052e16;
+      text-decoration: none;
+      text-align: center;
+      padding: 12px;
+      border-radius: 10px;
+      font-weight: 800;
+      font-size: 15px;
+      margin-bottom: 14px;
+    }
+    .field-label {
+      font-size: 13px;
+      color: #cbd5e1;
+      margin-bottom: 6px;
+      font-weight: 700;
+    }
+    .code-input {
+      width: 100%;
+      background: #0f172a;
+      border: 1px solid #475569;
+      border-radius: 10px;
+      padding: 12px;
+      color: #ffffff;
+      font-size: 16px;
+      text-align: center;
+      letter-spacing: 3px;
+      margin-bottom: 12px;
+    }
+    .activate-btn {
+      width: 100%;
+      background: #2563eb;
+      color: #ffffff;
+      border: none;
+      border-radius: 10px;
+      padding: 13px;
+      font-size: 16px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+    .error-msg {
+      color: #f87171;
+      font-size: 13px;
+      text-align: center;
+      margin-top: 10px;
+      min-height: 18px;
+    }
+
+    /* تصميم البرنامج الداخلي */
+    .app-container {
+      max-width: 480px;
+      margin: 0 auto;
+      background: #262626;
+      min-height: 100vh;
+      color: #f2f2f2;
+      padding-bottom: 30px;
+    }
+    .top-hint {
+      background: #1c1c1c;
+      color: #dcdcdc;
+      font-size: 13px;
+      line-height: 1.5;
+      padding: 10px 12px;
+      border-bottom: 1px solid #3a3a3a;
+    }
+    .custom-bar {
+      display: grid;
+      grid-template-columns: 1fr 24px 105px;
+      align-items: stretch;
+      background: #1f1f1f;
+      padding: 8px;
+      gap: 4px;
+    }
+    .custom-btn {
+      background: #737373;
+      color: #ffffff;
+      border: none;
+      border-radius: 4px;
+      padding: 12px 8px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      line-height: 1.25;
+    }
+    .custom-x {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #cccccc;
+      font-weight: 700;
+      font-size: 15px;
+    }
+    .dim-row {
+      display: grid;
+      grid-template-columns: 1fr 70px 115px;
+      align-items: center;
+      background: #333333;
+      border-bottom: 1px solid #454545;
+      min-height: 54px;
+      padding: 0 10px;
+    }
+    .dim-name {
+      font-size: 16px;
+      font-weight: 700;
+      color: #ffffff;
+    }
+    .unit-tap {
+      text-align: center;
+      color: #d4d4d4;
+      font-weight: 700;
+      font-size: 14px;
+      cursor: pointer;
+      padding: 6px;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.05);
+    }
+    .num-input {
+      width: 100%;
+      background: transparent;
+      border: none;
+      color: #ffffff;
+      font-size: 20px;
+      font-weight: 700;
+      text-align: center;
+      outline: none;
+    }
+    .section-olive {
+      background: #7a7d43;
+      color: #ffffff;
+      text-align: center;
+      font-size: 14px;
+      font-weight: 800;
+      padding: 12px 10px;
+      border-top: 1px solid #222;
+      border-bottom: 1px solid #222;
+    }
+    .yellow-result {
+      background: #e2b416;
+      color: #111111;
+      font-size: 17px;
+      font-weight: 800;
+      text-align: center;
+      padding: 13px 10px;
+      border-bottom: 2px solid #b88e08;
+      min-height: 46px;
+    }
+    .white-actions {
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      background: #262626;
+    }
+    .white-btn {
+      width: 100%;
+      background: #f5f5f5;
+      color: #1a1a1a;
+      border: none;
+      border-radius: 4px;
+      padding: 13px;
+      font-size: 15px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+    .note-lines {
+      padding: 6px 12px 10px;
+      font-size: 13px;
+      color: #e5e5e5;
+      line-height: 1.5;
+    }
+    .panel-box {
+      margin: 10px;
+      background: #1c1c1c;
+      border: 1px solid #525252;
+      border-radius: 6px;
+      padding: 12px;
+    }
+    .list-item {
+      background: #2b2b2b;
+      border: 1px solid #404040;
+      border-radius: 6px;
+      padding: 10px;
+      margin-bottom: 8px;
+      font-size: 13px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+    }
+    .del-btn {
+      background: #dc2626;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      padding: 6px 10px;
+      cursor: pointer;
+      font-weight: 700;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- شاشة التفعيل -->
+  <div id="lockScreen" class="lock-wrapper">
+    <div class="lock-card">
+      <div class="top-banner">
+        <div class="title">حسام للحسابات</div>
+        <div class="sub">المهندس: حسام حسن | واتساب: +966567435173</div>
+      </div>
+
+      <input type="file" id="logoInput" accept="image/*" class="hidden" />
+      <button type="button" class="logo-btn" onclick="document.getElementById('logoInput').click()">
+        🖼️ اختيار صورة اللوجو من الجهاز
+      </button>
+
+      <div class="brand-box">
+        <img id="customLogoPreview" class="brand-logo-img hidden" alt="Logo" />
+        <div class="brand-main">حسام للحسابات</div>
+        <div class="brand-desc">حاسبة مقاسات وتكعيب وتكلفة الأخشاب بدقة وسهولة.</div>
+      </div>
+
+      <div class="info-box">
+        لتفعيل البرنامج، تواصل مع المهندس حسام حسن عبر واتساب وسيتولى التفعيل وإدخال الكود بنفسه.
+      </div>
+
+      <div class="device-box">
+        <div class="device-label">معرّف الجهاز (مخفي لخصوصية التفعيل)</div>
+        <div class="device-stars">***********</div>
+      </div>
+
+      <a
+        class="wa-btn"
+        href="https://wa.me/966567435173?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%20%D9%85%D9%87%D9%86%D8%AF%D8%B3%20%D8%AD%D8%B3%D8%A7%D9%85%20%D8%AD%D8%B3%D9%86%D8%8C%20%D8%A3%D8%B1%D8%BA%D8%A8%20%D9%81%D9%8A%20%D8%AA%D9%81%D8%B9%D9%8A%D9%84%20%D8%A8%D8%B1%D9%86%D8%A7%D9%85%D8%AC%20%D8%AD%D8%B3%D8%A7%D9%85%20%D9%84%D9%84%D8%AD%D8%B3%D8%A7%D8%A8%D8%A7%D8%AA."
+        target="_blank"
+      >
+        💬 التحدث معي على واتساب لطلب التفعيل
+      </a>
+
+      <div class="field-label">رمز التفعيل (يُدخل بواسطة المهندس حسام حسن)</div>
+      <input
+        type="password"
+        id="passInput"
+        class="code-input"
+        placeholder="••••••••"
+        inputmode="numeric"
+      />
+      <button type="button" class="activate-btn" onclick="checkActivation()">
+        تأكيد التفعيل
+      </button>
+      <div id="errorMsg" class="error-msg"></div>
+    </div>
+  </div>
+
+  <!-- البرنامج الداخلي -->
+  <div id="mainApp" class="app-container hidden">
+    <div class="top-hint">
+      أدخل عدد الألواح. النتيجة هي الحجم والتكلفة. اضغط على الوحدة بجانب الكمية للحساب من الحجم.
+    </div>
+
+    <div class="custom-bar">
+      <button type="button" class="custom-btn" onclick="resetPreset()">مقطع مخصص (Custom cross-section)</button>
+      <div class="custom-x">X</div>
+      <button type="button" class="custom-btn" onclick="focusLength()">طول مخصص (Custom length)</button>
+    </div>
+
+    <div class="dim-row">
+      <div class="dim-name">(أ) السمك (Thickness)</div>
+      <div class="unit-tap" id="thickUnit" onclick="toggleThickUnit()">mm</div>
+      <input type="number" id="thickness" class="num-input" value="25" step="any" oninput="calculateAll()" />
+    </div>
+
+    <div class="dim-row">
+      <div class="dim-name">(ب) العرض (Width)</div>
+      <div class="unit-tap" id="widthUnit" onclick="toggleWidthUnit()">mm</div>
+      <input type="number" id="width" class="num-input" value="150" step="any" oninput="calculateAll()" />
+    </div>
+
+    <div class="dim-row">
+      <div class="dim-name">(ج) الطول (Length)</div>
+      <div class="unit-tap" id="lengthUnit" onclick="toggleLengthUnit()">m</div>
+      <input type="number" id="length" class="num-input" value="6" step="any" oninput="calculateAll()" />
+    </div>
+
+    <div class="section-olive">الألواح المطلوبة لمساحة (BOARDS NEEDED FOR AN AREA)</div>
+
+    <div class="dim-row">
+      <div class="dim-name">عدد الألواح (Board count)</div>
+      <div class="unit-tap" id="countModeTap" onclick="toggleCountMode()">pcs</div>
+      <input type="number" id="boardCount" class="num-input" value="3" step="any" oninput="calculateAll()" />
+    </div>
+
+    <div class="dim-row">
+      <div class="dim-name">سعر 1 م³ (Price for 1 m³)</div>
+      <div></div>
+      <input type="number" id="pricePerM3" class="num-input" value="26000" step="any" oninput="calculateAll()" />
+    </div>
+
+    <div class="section-olive">حساب الحجم (CALCULATE VOLUME (M³))</div>
+
+    <div class="yellow-result" id="volumeResult">الحجم: 0.0675 م³</div>
+    <div class="yellow-result" id="costResult">الإجمالي: 1755</div>
+
+    <div class="white-actions">
+      <button type="button" class="white-btn" onclick="addToList()">إضافة إلى القائمة (ADD TO LIST)</button>
+      <button type="button" class="white-btn" onclick="togglePanel('listPanel')">قائمة الأخشاب (LUMBER LIST)</button>
+    </div>
+
+    <div class="note-lines">
+      <div>تعذر قراءة القائمة المحفوظة. لم يتم تغيير البيانات المخزنة.</div>
+      <div>الألواح الجاهزة: سمك المنشار وفضلات القص غير مشمولة.</div>
+    </div>
+
+    <div class="white-actions">
+      <button type="button" class="white-btn" onclick="togglePanel('unitsPanel')">الوحدات والمعادلات وسمك المنشار (UNITS, FORMULAS AND SAW KERF)</button>
+    </div>
+
+    <div id="listPanel" class="panel-box hidden">
+      <div style="font-weight:800; margin-bottom:8px;">قائمة الأخشاب المحفوظة</div>
+      <div id="lumberListItems">لا توجد عناصر مضافة بعد.</div>
+      <div id="listSummary" style="margin-top:10px; font-weight:800; color:#facc15;"></div>
+    </div>
+
+    <div id="unitsPanel" class="panel-box hidden">
+      <div style="font-weight:800; margin-bottom:8px;">الوحدات والمعادلات</div>
+      <div style="font-size:13px; line-height:1.7; color:#e5e5e5;">
+        • حجم اللوح الواحد بالمتر المكعب = السمك (بالمتر) × العرض (بالمتر) × الطول (بالمتر)<br />
+        • إجمالي الحجم = حجم اللوح الواحد × عدد الألواح<br />
+        • التكلفة الإجمالية = إجمالي الحجم (م³) × سعر 1 م³
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const ACTIVATION_PASS = "10111970";
+    let lumberItems = [];
+    let countMode = "pcs";
+
+    document.getElementById("logoInput").addEventListener("change", function (e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function (ev) {
+        localStorage.setItem("custom_logo_data", ev.target.result);
+        renderSavedLogo();
+      };
+      reader.readAsDataURL(file);
+    });
+
+    function renderSavedLogo() {
+      const savedLogo = localStorage.getItem("custom_logo_data");
+      const img = document.getElementById("customLogoPreview");
+      if (savedLogo) {
+        img.src = savedLogo;
+        img.classList.remove("hidden");
+      }
+    }
+
+    function checkActivation() {
+      const inputVal = document.getElementById("passInput").value.trim();
+      const err = document.getElementById("errorMsg");
+      if (inputVal === ACTIVATION_PASS) {
+        err.textContent = "";
+        localStorage.setItem("app_activated_10111970", "true");
+        showMainApp();
+      } else {
+        err.textContent = "رمز التفعيل غير صحيح";
+      }
+    }
+
+    function showMainApp() {
+      document.getElementById("lockScreen").classList.add("hidden");
+      document.getElementById("mainApp").classList.remove("hidden");
+      calculateAll();
+    }
+
+    function toMeters(val, unit) {
+      const n = parseFloat(val) || 0;
+      if (unit === "mm") return n / 1000;
+      if (unit === "cm") return n / 100;
+      return n;
+    }
+
+    function toggleThickUnit() {
+      const el = document.getElementById("thickUnit");
+      const order = ["mm", "cm", "m"];
+      el.textContent = order[(order.indexOf(el.textContent) + 1) % order.length];
+      calculateAll();
+    }
+
+    function toggleWidthUnit() {
+      const el = document.getElementById("widthUnit");
+      const order = ["mm", "cm", "m"];
+      el.textContent = order[(order.indexOf(el.textContent) + 1) % order.length];
+      calculateAll();
+    }
+
+    function toggleLengthUnit() {
+      const el = document.getElementById("lengthUnit");
+      const order = ["m", "cm", "mm"];
+      el.textContent = order[(order.indexOf(el.textContent) + 1) % order.length];
+      calculateAll();
+    }
+
+    function toggleCountMode() {
+      const tap = document.getElementById("countModeTap");
+      if (countMode === "pcs") {
+        countMode = "m3";
+        tap.textContent = "m³";
+      } else {
+        countMode = "pcs";
+        tap.textContent = "pcs";
+      }
+      calculateAll();
+    }
+
+    function focusLength() {
+      document.getElementById("length").focus();
+      document.getElementById("length").select();
+    }
+
+    function resetPreset() {
+      document.getElementById("thickness").value = 25;
+      document.getElementById("width").value = 150;
+      document.getElementById("length").value = 6;
+      document.getElementById("boardCount").value = 3;
+      document.getElementById("pricePerM3").value = 26000;
+      calculateAll();
+    }
+
+    function calculateAll() {
+      const t = toMeters(document.getElementById("thickness").value, document.getElementById("thickUnit").textContent);
+      const w = toMeters(document.getElementById("width").value, document.getElementById("widthUnit").textContent);
+      const l = toMeters(document.getElementById("length").value, document.getElementById("lengthUnit").textContent);
+      const price = parseFloat(document.getElementById("pricePerM3").value) || 0;
+      const inputVal = parseFloat(document.getElementById("boardCount").value) || 0;
+
+      const singleBoardVol = t * w * l;
+      let totalVol = 0;
+
+      if (countMode === "pcs") {
+        totalVol = singleBoardVol * inputVal;
+      } else {
+        totalVol = inputVal;
+      }
+
+      const totalCost = totalVol * price;
+
+      document.getElementById("volumeResult").textContent =
+        "الحجم: " + totalVol.toFixed(4).replace(/\.?0+$/, "") + " م³";
+      document.getElementById("costResult").textContent =
+        "الإجمالي: " + totalCost.toLocaleString("en-US", { maximumFractionDigits: 2 });
+
+      return { t, w, l, countMode, inputVal, totalVol, totalCost };
+    }
+
+    function addToList() {
+      const calc = calculateAll();
+      lumberItems.push({
+        id: Date.now(),
+        thick: document.getElementById("thickness").value + document.getElementById("thickUnit").textContent,
+        width: document.getElementById("width").value + document.getElementById("widthUnit").textContent,
+        length: document.getElementById("length").value + document.getElementById("lengthUnit").textContent,
+        qty: calc.inputVal + " " + calc.countMode,
+        vol: calc.totalVol,
+        cost: calc.totalCost
+      });
+      renderList();
+      document.getElementById("listPanel").classList.remove("hidden");
+    }
+
+    function removeItem(id) {
+      lumberItems = lumberItems.filter((item) => item.id !== id);
+      renderList();
+    }
+
+    function renderList() {
+      const box = document.getElementById("lumberListItems");
+      const summary = document.getElementById("listSummary");
+      if (lumberItems.length === 0) {
+        box.innerHTML = "لا توجد عناصر مضافة بعد.";
+        summary.textContent = "";
+        return;
+      }
+
+      let sumVol = 0;
+      let sumCost = 0;
+      box.innerHTML = lumberItems
+        .map((it) => {
+          sumVol += it.vol;
+          sumCost += it.cost;
+          return `
+            <div class="list-item">
+              <div>
+                <strong>${it.thick} × ${it.width} × ${it.length}</strong> (${it.qty})<br/>
+                <span>الحجم: ${it.vol.toFixed(4)} م³ | التكلفة: ${it.cost.toLocaleString("en-US", { maximumFractionDigits: 2 })}</span>
+              </div>
+              <button type="button" class="del-btn" onclick="removeItem(${it.id})">حذف</button>
+            </div>
+          `;
+        })
+        .join("");
+
+      summary.textContent = `إجمالي القائمة: ${sumVol.toFixed(4)} م³ | التكلفة: ${sumCost.toLocaleString("en-US", { maximumFractionDigits: 2 })}`;
+    }
+
+    function togglePanel(id) {
+      document.getElementById(id).classList.toggle("hidden");
+    }
+
+    renderSavedLogo();
+    if (localStorage.getItem("app_activated_10111970") === "true") {
+      showMainApp();
+    }
+  </script>
+</body>
+</html>
